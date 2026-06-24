@@ -14,6 +14,7 @@ export default class InventoryUI {
   }
 
   _refresh() {
+    if (this._tradeMode) return;
     const gs = this.scene.registry.get('gameState');
     const items = gs?.inventory ?? [];
     this._slots.forEach(s => { s.bg.destroy(); s.icon?.destroy(); });
@@ -45,6 +46,10 @@ export default class InventoryUI {
   }
 
   openTradeMode(callback) {
+    if (this._slots.length === 0) {
+      callback(null);
+      return;
+    }
     this._tradeMode = true;
     this._tradeCallback = callback;
     this._tradeHint = this.scene.add.text(400, 355, '— Selecciona un objeto —', {
