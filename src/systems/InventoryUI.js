@@ -53,8 +53,8 @@ export default class InventoryUI {
     }).setOrigin(0.5).setScrollFactor(0).setDepth(18);
     this._slots.forEach(s => {
       s.bg.setInteractive({ useHandCursor: true });
-      s.bg.on('pointerover', () => s.bg.setStrokeStyle(2, 0xffdd44));
-      s.bg.on('pointerout',  () => s.bg.setStrokeStyle(1, 0x4466aa));
+      s.bg.on('pointerover', () => { s.bg.setFillStyle(0x554400, 0.85); s.bg.setStrokeStyle(2, 0xffdd44); });
+      s.bg.on('pointerout',  () => { s.bg.setFillStyle(0x222244, 0.85); s.bg.setStrokeStyle(1, 0x4466aa); });
       s.bg.on('pointerdown', () => this._pick(s.key));
     });
   }
@@ -67,7 +67,7 @@ export default class InventoryUI {
   }
 
   destroy() {
-    this._slots.forEach(s => { s.bg.destroy(); s.icon?.destroy(); });
+    this._slots.forEach(s => { s.bg.removeInteractive(); s.bg.destroy(); s.icon?.destroy(); });
     this._tradeHint?.destroy();
   }
 }
