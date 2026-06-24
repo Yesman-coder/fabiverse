@@ -53,17 +53,19 @@ export default class Level2_Salones extends Phaser.Scene {
     this.physics.add.overlap(this._player, this._exit, () => this._nextLevel());
 
     // Vision cone catch
-    this.physics.add.overlap(this._player, this._prof.cone, () => {
-      if (this._caught || this._dialogue.isOpen()) return;
-      if (this._hiddenByPillar()) return;
-      this._caught = true;
-      this._dialogue.show('professor_name', ['professor_caught'], () => {
-        this._player.setPosition(100, 390);
-        this._player.setVelocity(0, 0);
-        this._caught = false;
-        if (this.cache.audio.exists('sfx_caught')) this.sound.play('sfx_caught', { volume: 0.7 });
+    if (this._prof?.cone) {
+      this.physics.add.overlap(this._player, this._prof.cone, () => {
+        if (this._caught || this._dialogue.isOpen()) return;
+        if (this._hiddenByPillar()) return;
+        this._caught = true;
+        this._dialogue.show('professor_name', ['professor_caught'], () => {
+          this._player.setPosition(100, 390);
+          this._player.setVelocity(0, 0);
+          this._caught = false;
+          if (this.cache.audio.exists('sfx_caught')) this.sound.play('sfx_caught', { volume: 0.7 });
+        });
       });
-    });
+    }
 
     this._addLangToggle();
   }

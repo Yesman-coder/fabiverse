@@ -61,7 +61,10 @@ export default class Level3_Cantina extends Phaser.Scene {
   }
 
   update(_, delta) { this._player.update(delta); }
-  _nextLevel() { this.scene.start('Level4_Canchas'); }
+  _nextLevel() {
+    this.time.removeAllEvents();
+    this.scene.start('Level4_Canchas');
+  }
 
   _addLangToggle() {
     this.add.text(770, 14, t('lang_button'), {
