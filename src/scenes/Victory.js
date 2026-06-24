@@ -30,7 +30,7 @@ export default class Victory extends Phaser.Scene {
     if (this.cache.audio.exists('music_victory'))
       this.sound.play('music_victory', { volume: 0.7 });
 
-    this.input.keyboard.on('keydown-ENTER', () => {
+    this.input.keyboard.once('keydown-ENTER', () => {
       this.sound.stopAll();
       this.scene.start('CharacterSelect');
     });

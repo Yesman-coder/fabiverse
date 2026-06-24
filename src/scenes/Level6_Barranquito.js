@@ -44,6 +44,7 @@ export default class Level6_Barranquito extends Phaser.Scene {
     this._traded   = false;
     this._crystal  = null;
 
+    this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.E);
     this._eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
     this.events.on('interact', (obj) => {
@@ -70,8 +71,7 @@ export default class Level6_Barranquito extends Phaser.Scene {
   _doTrade() {
     this._traded = true;
     const gs = getGameState(this.registry);
-    gs.inventory = gs.inventory.filter(k => k !== 'empanada');
-    setGameState(this.registry, { inventory: gs.inventory });
+    setGameState(this.registry, { inventory: gs.inventory.filter(k => k !== 'empanada') });
     this._invUI._refresh();
 
     this._monkey.flee(this);
