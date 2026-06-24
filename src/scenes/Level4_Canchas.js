@@ -42,7 +42,9 @@ export default class Level4_Canchas extends Phaser.Scene {
 
     // Golden key — bobs at top of highest beam
     this._key = this.add.image(1300, 130, 'llave_dorada').setDisplaySize(28, 28).setDepth(5);
-    this.physics.add.existing(this._key, true);
+    this.physics.add.existing(this._key);
+    this._key.body.allowGravity = false;
+    this._key.body.setImmovable(true);
     this.tweens.add({
       targets: this._key, y: 118, duration: 700, yoyo: true, repeat: -1, ease: 'Sine.easeInOut'
     });
@@ -62,7 +64,9 @@ export default class Level4_Canchas extends Phaser.Scene {
   _collectKey() {
     if (this._keyCollected) return;
     this._keyCollected = true;
+    this.tweens.killTweensOf(this._key);
     this._key.destroy();
+    this._key = null;
     this._invUI.addItem('llave_dorada');
     if (this.cache.audio.exists('sfx_collect')) this.sound.play('sfx_collect');
     const note = this.add.text(400, 200,
