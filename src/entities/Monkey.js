@@ -2,7 +2,7 @@ export default class Monkey extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'monkey');
     scene.add.existing(this);
-    scene.physics.add.existing(this, true);
+    scene.physics.add.existing(this);
     this.body.allowGravity = false;
     this.setDepth(4);
     this._bobTween = scene.tweens.add({

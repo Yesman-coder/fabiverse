@@ -21,9 +21,9 @@ export default class Professor extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    this.setVelocityX(this._speed * this._dir);
     if (this.x >= this._right) this._dir = -1;
     if (this.x <= this._left)  this._dir =  1;
+    this.setVelocityX(this._speed * this._dir);
     this.setFlipX(this._dir === -1);
 
     const offsetX = this._dir * (this._coneW / 2 + 16);
