@@ -4,13 +4,19 @@ export default class Boot extends Phaser.Scene {
   constructor() { super({ key: 'Boot' }); }
 
   preload() {
-    // Audio — loads silently if .ogg files not yet placed in public/assets/audio/
-    const keys = [
+    // Real character sprites (east-facing, scaled in Player to 32×48)
+    this.load.image('fabi',  'assets/sprites/fabi.png');
+    this.load.image('sara',  'assets/sprites/sara.png');
+    this.load.image('milan', 'assets/sprites/milan.png');
+
+    // music_school uses the provided mp3; all others load silently if .ogg not yet present
+    this.load.audio('music_school', ['assets/audio/music_school.mp3', 'assets/audio/music_school.ogg']);
+    const sfxKeys = [
       'sfx_jump','sfx_collect','sfx_interact','sfx_caught',
       'sfx_ability','sfx_unlock','sfx_victory',
-      'music_menu','music_school','music_action','music_victory'
+      'music_menu','music_action','music_victory'
     ];
-    keys.forEach(k => this.load.audio(k, `assets/audio/${k}.ogg`));
+    sfxKeys.forEach(k => this.load.audio(k, `assets/audio/${k}.ogg`));
   }
 
   create() {
@@ -21,12 +27,7 @@ export default class Boot extends Phaser.Scene {
     //   this.load.spritesheet(key, 'assets/sprites/<file>.png', { frameWidth: 32, frameHeight: 48 })
     // and delete the corresponding _makePerson() / _makeItem() call below.
 
-    const chars = [
-      { key: 'fabi',  color: 0x4488ff },
-      { key: 'sara',  color: 0xff88cc },
-      { key: 'milan', color: 0x44cc44 },
-    ];
-    chars.forEach(({ key, color }) => this._makePerson(key, color));
+    // Characters loaded as real images in preload() above — no placeholders needed
 
     const npcs = [
       { key: 'guard',        color: 0x888888 },

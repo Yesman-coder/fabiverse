@@ -16,6 +16,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.JUMP_BUF = 100;
 
     this.setCollideWorldBounds(true);
+    this.setDisplaySize(32, 48);
     this.body.setSize(28, 44).setOffset(2, 4);
     this.setDepth(5);
 
