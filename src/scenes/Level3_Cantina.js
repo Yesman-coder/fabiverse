@@ -9,6 +9,7 @@ export default class Level3_Cantina extends Phaser.Scene {
   constructor() { super({ key: 'Level3_Cantina' }); }
 
   create() {
+    this.events.off('interact');
     const gs = getGameState(this.registry);
     setLang(gs.lang);
     setGameState(this.registry, { currentLevel: 3, abilityUsed: false });

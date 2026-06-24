@@ -9,6 +9,7 @@ export default class Level1_Guardia extends Phaser.Scene {
   constructor() { super({ key: 'Level1_Guardia' }); }
 
   create() {
+    this.events.off('interact');
     const gs = getGameState(this.registry);
     setLang(gs.lang);
     setGameState(this.registry, { currentLevel: 1, abilityUsed: false });

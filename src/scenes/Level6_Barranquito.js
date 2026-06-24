@@ -9,6 +9,7 @@ export default class Level6_Barranquito extends Phaser.Scene {
   constructor() { super({ key: 'Level6_Barranquito' }); }
 
   create() {
+    this.events.off('interact');
     const gs = getGameState(this.registry);
     setLang(gs.lang);
     setGameState(this.registry, { currentLevel: 6, abilityUsed: false });
