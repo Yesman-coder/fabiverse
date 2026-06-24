@@ -10,7 +10,7 @@ export default class Professor extends Phaser.Physics.Arcade.Sprite {
     this._left  = patrolLeft;
     this._right = patrolRight;
     this._dir   = 1;
-    this._speed = 70;
+    this._speed = 95;
     this._coneW = coneWidth;
 
     // Vision cone: semi-transparent rectangle rendered in front of professor

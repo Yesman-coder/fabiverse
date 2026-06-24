@@ -16,8 +16,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.JUMP_BUF = 100;
 
     this.setCollideWorldBounds(true);
-    this.setDisplaySize(32, 48);
-    this.body.setSize(28, 44).setOffset(2, 4);
+    this.setDisplaySize(38, 58);
+    this.body.setSize(34, 52).setOffset(2, 3);
     this.setDepth(5);
 
     this._cursors = scene.input.keyboard.createCursorKeys();
@@ -111,8 +111,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     const nearest = this._nearest(60);
-    if (nearest) this._prompt.setPosition(nearest.x, nearest.y - 36).setVisible(true);
-    else         this._prompt.setVisible(false);
+    if (nearest) {
+      let txt = '[E]';
+      if (nearest.requiresItem) {
+        const inv = this.scene.registry.get('gameState')?.inventory ?? [];
+        txt = inv.includes(nearest.requiresItem)
+          ? `[E] usar ${nearest.requiresItem}`
+          : `necesitas: ${nearest.requiresItem}`;
+      }
+      this._prompt.setText(txt).setPosition(nearest.x, nearest.y - 36).setVisible(true);
+    } else {
+      this._prompt.setVisible(false);
+    }
   }
 
   _nearest(range) {

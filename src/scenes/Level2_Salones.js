@@ -19,7 +19,34 @@ export default class Level2_Salones extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, LEVEL_W, 450);
     this.cameras.main.setBounds(0, 0, LEVEL_W, 450);
 
-    this.add.rectangle(LEVEL_W / 2, 225, LEVEL_W, 450, 0xccddee);
+    // ── Background: school hallway (1600px scrolling) ─────────────────
+    this.add.rectangle(LEVEL_W / 2, 225, LEVEL_W, 450, 0xE8D0A0); // warm wall
+    // Ceiling and floor bands
+    this.add.rectangle(LEVEL_W / 2, 22, LEVEL_W, 44, 0xC4A870);
+    this.add.rectangle(LEVEL_W / 2, 428, LEVEL_W, 30, 0xA0825A);
+    // Alternating floor tiles
+    for (let tx = 0; tx < LEVEL_W; tx += 48)
+      this.add.rectangle(tx + 24, 428, 46, 28, tx % 96 === 0 ? 0xB8956A : 0xA8856A);
+    // Fluorescent ceiling lights every 300px
+    for (let lx = 150; lx < LEVEL_W; lx += 300) {
+      this.add.rectangle(lx, 30, 90, 10, 0xFFFACC, 0.9);
+      this.add.rectangle(lx, 30, 94, 14, 0xCCBB88).setStrokeStyle(1, 0xAA9966);
+    }
+    // Classroom doors with room numbers
+    for (let dx = 220; dx < LEVEL_W - 100; dx += 280) {
+      this.add.rectangle(dx, 310, 54, 210, 0x8B5E3C);
+      this.add.rectangle(dx, 310, 58, 214, 0x0).setStrokeStyle(2, 0x5C3A1E);
+      this.add.circle(dx + 20, 310, 5, 0xCCAA44);
+      this.add.text(dx, 218, String(100 + Math.floor(dx / 280)), {
+        fontSize: '9px', fontFamily: 'monospace', color: '#5C3A1E'
+      }).setOrigin(0.5);
+    }
+    // Bulletin board near start
+    this.add.rectangle(90, 230, 130, 90, 0x2a5c2a);
+    this.add.text(90, 222, '-- AVISOS --', { fontSize: '7px', fontFamily: 'monospace', color: '#aaffaa' }).setOrigin(0.5);
+    this.add.text(90, 236, 'Examen Martes', { fontSize: '6px', fontFamily: 'monospace', color: '#ccffcc' }).setOrigin(0.5);
+    this.add.text(90, 248, 'Fiesta Viernes', { fontSize: '6px', fontFamily: 'monospace', color: '#ccffcc' }).setOrigin(0.5);
+    // ── End background ────────────────────────────────────────────────
 
     const gnd = this.add.tileSprite(LEVEL_W / 2, 438, LEVEL_W, 24, 'tile_ground');
     this._ground = this.physics.add.staticGroup();

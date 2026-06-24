@@ -1,4 +1,5 @@
 import { initGameState } from '../GameState.js';
+import { synthSfx }     from '../systems/SfxSynth.js';
 
 export default class Boot extends Phaser.Scene {
   constructor() { super({ key: 'Boot' }); }
@@ -21,6 +22,7 @@ export default class Boot extends Phaser.Scene {
 
   create() {
     initGameState(this.registry);
+    synthSfx(this);
 
     // ── Placeholder textures ──────────────────────────────────────────
     // When real PNG assets are ready, move these to preload() as:

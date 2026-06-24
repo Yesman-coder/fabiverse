@@ -14,7 +14,35 @@ export default class Level6_Barranquito extends Phaser.Scene {
     setLang(gs.lang);
     setGameState(this.registry, { currentLevel: 6, abilityUsed: false });
 
-    this.add.rectangle(400, 225, 800, 450, 0x2d5a1b);
+    // ── Background: jungle ravine / El Barranquito ────────────────────
+    this.add.rectangle(400, 225, 800, 450, 0x1a3a0e); // dark jungle
+    // Sky peek through canopy
+    this.add.rectangle(400, 50, 800, 100, 0x4a8a55, 0.5);
+    // Far background tree silhouettes
+    [60, 180, 340, 520, 670, 760].forEach(tx => {
+      const h = 150 + (tx % 60);
+      this.add.rectangle(tx, 200 - h / 2, 28, h, 0x1a4010, 0.8);
+      this.add.ellipse(tx, 200 - h + 10, 78, 58, 0x1e4d14, 0.7);
+    });
+    // Mid-layer foliage
+    for (let fx = -20; fx < 820; fx += 70) {
+      this.add.ellipse(fx, 390, 110, 60, 0x2d5a1b);
+      this.add.ellipse(fx + 25, 380, 80, 50, 0x3a6e22);
+    }
+    // Mossy rocks on ground
+    [120, 260, 450, 700].forEach(rx => {
+      this.add.ellipse(rx, 428, 60, 28, 0x556644);
+      this.add.ellipse(rx + 8, 422, 40, 20, 0x667755, 0.7);
+    });
+    // Hanging vines
+    [150, 350, 550, 730].forEach(vx => {
+      for (let vy = 0; vy < 200; vy += 18)
+        this.add.circle(vx + Math.sin(vy * 0.3) * 6, vy + 10, 3, 0x336622, 0.7);
+    });
+    // Waterfall (right side)
+    for (let wy = 60; wy < 410; wy += 12)
+      this.add.rectangle(752, wy, 10, 10, 0x88CCFF, 0.28 + (wy % 24) * 0.01);
+    // ── End background ────────────────────────────────────────────────
     this.add.ellipse(580, 390, 120, 55, 0x556b2f);
     this.add.ellipse(660, 375, 80, 44, 0x4a5e24);
 
@@ -29,10 +57,11 @@ export default class Level6_Barranquito extends Phaser.Scene {
     this._ground.add(rock);
 
     this._monkey = new Monkey(this, 580, 276);
-    this._monkey.setDisplaySize(32, 48);
+    this._monkey.setDisplaySize(38, 58);
 
     // Invisible zone over rock — added to player interactables
     this._rockZone = this.add.rectangle(580, 308, 100, 50, 0xffffff, 0);
+    this._rockZone.requiresItem = 'empanada';
     this.physics.add.existing(this._rockZone, true);
 
     this._player = new Player(this, 60, 390, gs.character);

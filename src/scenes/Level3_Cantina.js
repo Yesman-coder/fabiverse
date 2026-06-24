@@ -14,7 +14,37 @@ export default class Level3_Cantina extends Phaser.Scene {
     setLang(gs.lang);
     setGameState(this.registry, { currentLevel: 3, abilityUsed: false });
 
-    this.add.rectangle(400, 225, 800, 450, 0xffe4b5);
+    // ── Background: school cantina interior ───────────────────────────
+    this.add.rectangle(400, 225, 800, 450, 0xF5E0B0); // warm wall
+    // Ceiling band
+    this.add.rectangle(400, 20, 800, 40, 0xD4A85A);
+    // Hanging cantina sign
+    this.add.rectangle(400, 44, 190, 32, 0x8B4513);
+    this.add.text(400, 44, 'LA CANTINA', { fontSize: '11px', fontFamily: 'monospace', color: '#FFDD88' }).setOrigin(0.5);
+    // Chalkboard menu on back wall
+    this.add.rectangle(200, 180, 200, 110, 0x1a3d1a);
+    this.add.rectangle(200, 180, 204, 114, 0x0).setStrokeStyle(2, 0x886644);
+    this.add.text(200, 150, 'MENU DEL DIA', { fontSize: '8px', fontFamily: 'monospace', color: '#88EE88' }).setOrigin(0.5);
+    this.add.text(200, 167, 'Empanadas  $500', { fontSize: '7px', fontFamily: 'monospace', color: '#aaffaa' }).setOrigin(0.5);
+    this.add.text(200, 180, 'Jugo       $200', { fontSize: '7px', fontFamily: 'monospace', color: '#aaffaa' }).setOrigin(0.5);
+    this.add.text(200, 193, 'Arroz      $300', { fontSize: '7px', fontFamily: 'monospace', color: '#aaffaa' }).setOrigin(0.5);
+    this.add.text(200, 206, 'Postre     $400', { fontSize: '7px', fontFamily: 'monospace', color: '#aaffaa' }).setOrigin(0.5);
+    // Windows (right wall)
+    [580, 680].forEach(wx => {
+      this.add.rectangle(wx, 190, 64, 80, 0xAADDFF, 0.65);
+      this.add.rectangle(wx, 190, 68, 84, 0x0).setStrokeStyle(2, 0x998866);
+      this.add.rectangle(wx, 260, 64, 60, 0xFFFF99, 0.10); // sunlight shaft
+    });
+    // Tiled floor (alternating)
+    for (let tx = 0; tx < 800; tx += 44)
+      this.add.rectangle(tx + 22, 432, 42, 22, tx % 88 === 0 ? 0xDDCC99 : 0xCCBB88);
+    // Background tables
+    [100, 620].forEach(tx => {
+      this.add.rectangle(tx, 350, 80, 8, 0xAA7733);
+      this.add.rectangle(tx - 28, 370, 6, 22, 0x885522);
+      this.add.rectangle(tx + 28, 370, 6, 22, 0x885522);
+    });
+    // ── End background ────────────────────────────────────────────────
     this.add.rectangle(400, 358, 400, 40, 0x8B6914); // counter
 
     const gnd = this.add.tileSprite(400, 438, 800, 24, 'tile_ground');
@@ -23,7 +53,7 @@ export default class Level3_Cantina extends Phaser.Scene {
     this._ground.add(gnd);
 
     this._lady = new NPC(this, 400, 338, 'cantina_lady');
-    this._lady.setDisplaySize(32, 48);
+    this._lady.setDisplaySize(38, 58);
 
     this._player = new Player(this, 60, 390, gs.character);
     this.physics.add.collider(this._player, this._ground);

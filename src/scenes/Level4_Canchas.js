@@ -16,7 +16,27 @@ export default class Level4_Canchas extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, LEVEL_W, 450);
     this.cameras.main.setBounds(0, 0, LEVEL_W, 450);
 
-    this.add.rectangle(LEVEL_W / 2, 225, LEVEL_W, 450, 0x5a8a3c);
+    // ── Background: sports field / dojo ───────────────────────────────
+    this.add.rectangle(LEVEL_W / 2, 225, LEVEL_W, 450, 0x5a8a3c); // grass
+    // Sky strip at top
+    this.add.rectangle(LEVEL_W / 2, 60, LEVEL_W, 120, 0x88CCFF);
+    // Clouds
+    [[200, 40], [500, 30], [900, 45], [1200, 35]].forEach(([cx, cy]) => {
+      this.add.ellipse(cx, cy, 100, 36, 0xFFFFFF, 0.85);
+      this.add.ellipse(cx + 30, cy - 8, 70, 28, 0xFFFFFF, 0.80);
+    });
+    // Treeline at horizon
+    this.add.rectangle(LEVEL_W / 2, 112, LEVEL_W, 22, 0x3d6b32);
+    // Court lines
+    this.add.rectangle(LEVEL_W / 2, 436, LEVEL_W, 3, 0xFFFFFF, 0.35);
+    for (let lx = 0; lx < LEVEL_W; lx += 200)
+      this.add.rectangle(lx, 436, 2, 30, 0xFFFFFF, 0.28);
+    // Dojo building (right background)
+    this.add.rectangle(1150, 175, 340, 210, 0xCC9933, 0.75);
+    this.add.rectangle(1150, 72, 380, 24, 0xAA7722, 0.80);
+    this.add.text(1150, 88, 'DOJO', { fontSize: '12px', fontFamily: 'monospace', color: '#332200' }).setOrigin(0.5).setAlpha(0.85);
+    [1040, 1150, 1260].forEach(wx => this.add.rectangle(wx, 185, 36, 44, 0x99BBDD, 0.6));
+    // ── End background ────────────────────────────────────────────────
 
     this._plats = this.physics.add.staticGroup();
 

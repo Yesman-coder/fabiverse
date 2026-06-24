@@ -15,14 +15,39 @@ export default class Level5_Piscina extends Phaser.Scene {
 
     setGameState(this.registry, { currentLevel: 5, abilityUsed: false });
 
-    this.add.rectangle(400, 225, 800, 450, 0xaaddff);
-    this.add.text(400, 90, '"Piscina Temperada"', {
-      fontSize: '16px', fontFamily: 'monospace', color: '#003366',
-      backgroundColor: '#ffffffaa', padding: { x: 8, y: 4 }
+    // ── Background: indoor pool area ──────────────────────────────────
+    this.add.rectangle(400, 225, 800, 450, 0x7ABDE6);
+    // Ceiling with skylights
+    this.add.rectangle(400, 22, 800, 44, 0x5599BB);
+    [160, 320, 480, 640].forEach(sx => {
+      this.add.rectangle(sx, 22, 70, 40, 0xDDEEFF, 0.6);
+      this.add.rectangle(sx, 52, 70, 44, 0xFFFF99, 0.12);
+    });
+    // Wall tile pattern
+    for (let ty = 80; ty < 270; ty += 28)
+      for (let tx = 0; tx < 800; tx += 52)
+        this.add.rectangle(tx + 26, ty, 50, 26,
+          (tx + ty) % 104 === 0 ? 0xCCEEFF : 0xBBDDEE, 0.50);
+    // Pool title sign
+    this.add.text(400, 74, '"Piscina Temperada"', {
+      fontSize: '14px', fontFamily: 'monospace', color: '#003366',
+      backgroundColor: '#ffffffcc', padding: { x: 8, y: 4 }
     }).setOrigin(0.5);
-
-    // Pool with ice blocks
+    // Pool water
     this.add.rectangle(400, 330, 600, 120, 0x7ec8e3);
+    // Pool tile border (top + bottom)
+    for (let i = 0; i < 12; i++) {
+      const c = i % 2 === 0 ? 0x1188CC : 0x44AAEE;
+      this.add.rectangle(104 + i * 51, 271, 49, 13, c);
+      this.add.rectangle(104 + i * 51, 391, 49, 13, c);
+    }
+    // Lane dividers
+    for (let l = 1; l < 5; l++)
+      this.add.rectangle(115 + l * 115, 330, 5, 100, 0xFF8800, 0.55);
+    // Lifeguard chair
+    this.add.rectangle(52, 318, 8, 30, 0xDD4400);
+    this.add.rectangle(52, 301, 32, 16, 0xFF6600);
+    // ── End background ────────────────────────────────────────────────
     for (let i = 0; i < 7; i++)
       for (let j = 0; j < 3; j++)
         this.add.image(130 + i * 80, 283 + j * 38, 'tile_ice')
@@ -37,6 +62,7 @@ export default class Level5_Piscina extends Phaser.Scene {
     this._door    = this.add.rectangle(700, 380, 60, 100, 0x666688);
     this._padlock = this.add.image(700, 338, 'llave_dorada')
       .setTint(0xffaa00).setDisplaySize(24, 24).setDepth(5);
+    this._padlock.requiresItem = 'llave_dorada';
     this.physics.add.existing(this._padlock, true);
 
     this._player = new Player(this, 60, 390, gs.character);

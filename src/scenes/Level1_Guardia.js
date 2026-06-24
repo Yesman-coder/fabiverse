@@ -14,7 +14,38 @@ export default class Level1_Guardia extends Phaser.Scene {
     setLang(gs.lang);
     setGameState(this.registry, { currentLevel: 1, abilityUsed: false });
 
-    this.add.rectangle(400, 225, 800, 450, 0x87CEEB);
+    // ── Background: school entrance exterior ──────────────────────────
+    this.add.rectangle(400, 225, 800, 450, 0x87CEEB); // sky
+    // Sun
+    this.add.circle(680, 65, 38, 0xFFDD00).setAlpha(0.9);
+    this.add.circle(680, 65, 48, 0xFFEE44).setAlpha(0.25);
+    // Distant hills
+    this.add.ellipse(100, 430, 240, 160, 0x3d6b32);
+    this.add.ellipse(310, 440, 320, 170, 0x4a7a3a);
+    this.add.ellipse(680, 445, 280, 155, 0x3d6b32);
+    // School building facade
+    this.add.rectangle(400, 215, 480, 240, 0xDDCCBB);
+    this.add.rectangle(400, 95, 500, 18, 0xBB9900); // roof stripe
+    // School sign on facade
+    this.add.rectangle(400, 118, 220, 28, 0xBB9900);
+    this.add.text(400, 118, 'LOS HIPOCAMPITOS', {
+      fontSize: '8px', fontFamily: 'monospace', color: '#331100'
+    }).setOrigin(0.5);
+    // Facade windows (4 across)
+    [240, 320, 480, 560].forEach(wx => {
+      this.add.rectangle(wx, 200, 42, 52, 0x99BBDD);
+      this.add.rectangle(wx, 200, 46, 56, 0xCCBBAA).setStrokeStyle(2, 0x887755);
+    });
+    // Main door
+    this.add.rectangle(400, 250, 40, 72, 0x774422);
+    this.add.rectangle(400, 250, 44, 76, 0x0).setStrokeStyle(2, 0x553300);
+    // Trees flanking school
+    [55, 760].forEach(tx => {
+      this.add.rectangle(tx, 418, 12, 50, 0x664422);
+      this.add.circle(tx, 386, 26, 0x1f7a2a);
+      this.add.circle(tx - 10, 378, 18, 0x28A033);
+    });
+    // ── End background ────────────────────────────────────────────────
 
     // Ground
     this._ground = this.physics.add.staticGroup();
@@ -28,7 +59,7 @@ export default class Level1_Guardia extends Phaser.Scene {
 
     // Guard NPC
     this._guard = new NPC(this, 150, 400, 'guard');
-    this._guard.setDisplaySize(32, 48);
+    this._guard.setDisplaySize(38, 58);
 
     // Player
     this._player = new Player(this, 60, 390, gs.character);
@@ -57,7 +88,7 @@ export default class Level1_Guardia extends Phaser.Scene {
     this._addLangToggle();
     this.sound.stopAll();
     if (this.cache.audio.exists('music_school'))
-      this.sound.add('music_school', { loop: true, volume: 0.5 }).play();
+      this.sound.add('music_school', { loop: true, volume: 0.2 }).play();
   }
 
   update(_, delta) {
