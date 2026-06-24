@@ -115,9 +115,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   _nearest(range) {
+    this.interactables = this.interactables.filter(o => o?.active);
     let best = null, minD = range;
     for (const obj of this.interactables) {
-      if (!obj?.active) continue;
       const d = Phaser.Math.Distance.Between(this.x, this.y, obj.x, obj.y);
       if (d < minD) { minD = d; best = obj; }
     }
@@ -125,6 +125,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   addInteractable(obj) { this.interactables.push(obj); }
+  removeInteractable(obj) { this.interactables = this.interactables.filter(o => o !== obj); }
   lockMovement()       { this._moveLocked = true;  this.setVelocityX(0); }
   unlockMovement()     { this._moveLocked = false; }
 
