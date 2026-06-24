@@ -27,6 +27,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     });
     this._eKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this._qKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this._spaceKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     this._prompt = scene.add.text(0, -50, '[E]', {
       fontSize: '11px', fontFamily: 'monospace',
@@ -57,8 +58,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const left  = this._cursors.left.isDown  || this._wasd.left.isDown;
     const right = this._cursors.right.isDown || this._wasd.right.isDown;
     const jumpNow =
-      Phaser.Input.Keyboard.JustDown(this._cursors.up)    ||
-      Phaser.Input.Keyboard.JustDown(this._cursors.space) ||
+      Phaser.Input.Keyboard.JustDown(this._cursors.up)  ||
+      Phaser.Input.Keyboard.JustDown(this._spaceKey)    ||
       Phaser.Input.Keyboard.JustDown(this._wasd.up);
 
     if (onGround) this._coyote = this.COYOTE;
@@ -91,10 +92,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       if (this.character === 'fabi') {
         const target = this._nearest(220);
         if (target) {
+          if (target.setTint) target.setTint(0xFFD700);
           this.scene.tweens.add({
-            targets: target, alpha: 0.2, duration: 180,
-            yoyo: true, repeat: 8,
-            onComplete: () => target.active && target.setAlpha(1)
+            targets: target, alpha: 0.3, duration: 200,
+            yoyo: true, repeat: 7,
+            onComplete: () => {
+              if (target.active) {
+                target.setAlpha(1);
+                if (target.clearTint) target.clearTint();
+              }
+            }
           });
         }
         if (this.scene.cache?.audio?.exists('sfx_ability'))
