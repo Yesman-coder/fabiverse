@@ -75,10 +75,27 @@ export default class Level5_Piscina extends Phaser.Scene {
   }
 
   _victoryMode() {
+    // Background
     this.add.rectangle(400, 225, 800, 450, 0x1a88cc);
+
+    // Pool base
+    this.add.rectangle(400, 330, 600, 120, 0x3399ff);
+
+    // Shimmer highlights animating alpha
+    for (let i = 0; i < 8; i++) {
+      const shimmer = this.add.rectangle(80 + i * 70, 300 + (i % 3) * 22, 60, 10, 0xaaeeff, 0.7);
+      this.tweens.add({
+        targets: shimmer, alpha: 0.1,
+        duration: 350 + i * 70, yoyo: true, repeat: -1
+      });
+    }
+
+    // Wave text
     this.add.text(400, 200, '~ ~ ~ ~ ~', {
       fontSize: '28px', fontFamily: 'monospace', color: '#aaeeff'
     }).setOrigin(0.5);
+
+    // Steam particles rising
     for (let i = 0; i < 14; i++) {
       const dot = this.add.circle(60 + i * 50, 340, 5, 0xffffff, 0.7);
       this.tweens.add({
@@ -87,6 +104,7 @@ export default class Level5_Piscina extends Phaser.Scene {
         onComplete: () => dot.destroy()
       });
     }
+
     if (this.cache.audio.exists('sfx_victory')) this.sound.play('sfx_victory', { volume: 0.8 });
     this.time.delayedCall(3000, () => this.scene.start('Victory'));
   }
