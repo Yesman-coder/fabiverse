@@ -24,8 +24,9 @@ export default class DialogueBox {
     }).setScrollFactor(0).setDepth(21).setVisible(false);
 
     scene.tweens.add({ targets: this.arrow, alpha: 0.2, duration: 400, yoyo: true, repeat: -1 });
-    scene.input.keyboard.on('keydown-SPACE', () => this._advance());
-    scene.input.keyboard.on('keydown-E', () => this._advance());
+    this._advanceBound = () => this._advance();
+    scene.input.keyboard.on('keydown-SPACE', this._advanceBound);
+    scene.input.keyboard.on('keydown-E', this._advanceBound);
   }
 
   // speakerKey: i18n key for speaker name (or '' for none)
@@ -33,6 +34,10 @@ export default class DialogueBox {
   // onComplete: optional callback fired after last line is dismissed
   show(speakerKey, lineKeys, onComplete) {
     if (this._open) return;
+    if (!lineKeys || lineKeys.length === 0) {
+      if (onComplete) onComplete();
+      return;
+    }
     this._open = true;
     this._lines = lineKeys.map(k => t(k));
     this._idx = 0;
@@ -71,6 +76,8 @@ export default class DialogueBox {
   }
 
   destroy() {
+    this.scene.input.keyboard.off('keydown-SPACE', this._advanceBound);
+    this.scene.input.keyboard.off('keydown-E', this._advanceBound);
     [this.bg, this.border, this.speakerTxt, this.bodyTxt, this.arrow]
       .forEach(o => o.destroy());
   }
